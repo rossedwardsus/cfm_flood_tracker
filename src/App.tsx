@@ -49,17 +49,41 @@ class FloodTracker extends Component<any, any> {
       super(props);
       
       this.state = {data: [{event: "level_mm", data: 584, coreid: 400036001751353338363036, published_at: "2019-02-18 16:30:21 -0500"}],
-                    data_as_list_formatted: "", activeTab: 0, anchorEl: null, menuOpen: false};
+                    data_as_list_formatted: "", activeTab: 0, anchorEl: null, menuOpen: false, date: "", view_type: "list"};
   }
 
   componentDidMount = () => {
 
+      let date =  moment();
+      let day_of_week = date.format("dddd");
+      let month = date.format("MMM");
+      let day_of_month = date.format("Do");
+      
+      let date_as_string = day_of_week + " " + month + " " + day_of_month+ ", year ";
+
+      this.setState({date: date_as_string})
+
+      let formatted_data = this.state.data.map((data: any ) => <div>{data.event}<br/>{data.data}<br/>{data.coreid.toString()}<br/>{this.formatPublishedAt(data.published_at)}</div>);
+      //alert(JSON.stringify(formatted_data));
+      this.setState({data_as_list_formatted: formatted_data});
 
   }
 
   formatPublishedAt = (datetime: any) => {
 
-    return "format publishedat"
+    let date_time = moment(datetime, "YYYY-MM-DD HH:mm:ss")
+    //.format("MM-DD-YYYY");
+    // hh:mm A');
+    let day_of_week = date_time.format("dddd");
+    let month = date_time.format("MMM");
+    let date = date_time.day();
+    let time = date_time.format("hh:mm:ss A");
+    let year = date_time.year();
+    //let seconds = date_time.seconds();
+
+    //alert(day_of_week + " " + month + " " + date + ", year " + time);
+
+    return day_of_week + " " + month + " " + date + ", " + year + " " + time
 
   }
 
@@ -81,9 +105,8 @@ class FloodTracker extends Component<any, any> {
     //alert(day_of_week + " " + month + " " + date + ", year " + time);
 
     //loop through data and format datetime
-    let formatted_data = this.state.data.map((data: any ) => <div>{data.event}<br/>{data.data}<br/>{data.coreid.toString()}<br/>{this.formatPublishedAt(data.published_at)}</div>);
-    //alert(JSON.stringify(formatted_data));
-    this.setState({data_as_list_formatted: formatted_data});
+    
+    this.setState({view_type: type});
   };
 
   render() {
@@ -150,17 +173,18 @@ class FloodTracker extends Component<any, any> {
                       Welcome to the Code for Miami Flood Tracker!
                     </p>
                     <br/>
-                    <a href="#" onClick={(e: any) => this.changeView("list", e)}>
-                      List
-                    </a>
+                    Todays date is: {this.state.date}
                     <br/>
-                    <a href="#" onClick={(e: any) => this.changeView("graph", e)}>
-                      Graph
-                    </a>
                     <br/>
-                    {this.state.data_as_list_formatted}
                     <br/>
-                    <Hidden smUp>
+                    {this.state.view_type == "list" ? 
+                      <div>
+                        Event|Data|coreid|Datetime
+                        <br/>
+                        {this.state.data_as_list_formatted}
+                      </div> : <div>graph</div>}
+                    <br/>
+                    <Hidden smDown>
                     put a bottom navbar here
                     <BottomNavigation
                       value={0}
@@ -168,15 +192,12 @@ class FloodTracker extends Component<any, any> {
                       className={classes.stickToBottom}
                     >
                       <BottomNavigationAction label="List" component={({innerRef, ...props}) => <Link {...props} to="/graph" />}/>
-                      <BottomNavigationAction label="Graph" />
+                      <BottomNavigationAction label="Graph" onClick={(e: any) => this.changeView("graph", e)}/>
                     </BottomNavigation>
                     </Hidden>
                   </Grid>
                   <Hidden mdDown>
                     <Grid item xs>
-                      todos not scheduled
-                      <br/>
-                      most recent notes
                     </Grid>
                   </Hidden>
               </Grid>
