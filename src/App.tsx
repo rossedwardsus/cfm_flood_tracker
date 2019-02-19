@@ -21,6 +21,11 @@ import MenuList from '@material-ui/core/MenuList';
 import MenuItem from '@material-ui/core/MenuItem';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 
 import { BrowserRouter as Router, Route, Link, match, withRouter, Redirect, Switch } from "react-router-dom";
 
@@ -31,6 +36,9 @@ const styles = {
   },
   grow: {
     flexGrow: 1,
+  },
+  table: {
+    maxWidth: 720,
   },
   menuButton: {
     marginLeft: -12,
@@ -176,13 +184,35 @@ class FloodTracker extends Component<any, any> {
                     Todays date is: {this.state.date}
                     <br/>
                     <br/>
+                    
                     <br/>
                     {this.state.view_type == "list" ? 
                       <div>
-                        Event|Data|coreid|Datetime
-                        <br/>
-                        {this.state.data_as_list_formatted}
-                      </div> : <div>graph</div>}
+                       <Table className={classes.table}>
+                        <TableHead>
+                          <TableRow>
+                            <TableCell>Event</TableCell>
+                            <TableCell align="right">Data</TableCell>
+                            <TableCell align="right">Coreid</TableCell>
+                            <TableCell align="right">published_at</TableCell>
+                          </TableRow>
+                        </TableHead>
+                     
+                       <TableBody>
+                        {this.state.data.map((row: any) => (
+                          <TableRow key={1}>
+                            <TableCell component="th" scope="row">
+                              {row.event}
+                            </TableCell>
+                            <TableCell align="right">{row.data}</TableCell>
+                            <TableCell align="right">{row.coreid}</TableCell>
+                            <TableCell align="right">{this.formatPublishedAt(row.published_at)}</TableCell>
+                          </TableRow>
+                        ))}
+                        </TableBody>
+                      </Table>
+                      <br/>
+                    </div> : <div>graph</div>}
                     <br/>
                     <Hidden smDown>
                     put a bottom navbar here
@@ -196,10 +226,6 @@ class FloodTracker extends Component<any, any> {
                     </BottomNavigation>
                     </Hidden>
                   </Grid>
-                  <Hidden mdDown>
-                    <Grid item xs>
-                    </Grid>
-                  </Hidden>
               </Grid>
             </div>
           </div>
