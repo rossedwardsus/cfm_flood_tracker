@@ -225,7 +225,7 @@ class FloodTracker extends Component<any, any> {
                       <br/>
                     </Grid>
                   </Hidden>
-                  <Grid item>
+                  <Grid item xs={12} sm={12} md={2} lg={10}>
                     <br/>
                     <br/>
                     <br/>
@@ -234,7 +234,7 @@ class FloodTracker extends Component<any, any> {
                       Welcome to the Code for Miami Flood Tracker!
                     </p>
                     <br/>
-                    <a href="#" onClick={(e: any) => this.decrementDate(e)}>Previous Day</a>{this.state.date_formatted}<a href="#" onClick={(e: any) => this.incrementDate(e)}>Next Day</a>
+                    <a href="#" onClick={(e: any) => this.decrementDate(e)}>{"<"}</a>{this.state.date_formatted}<a href="#" onClick={(e: any) => this.incrementDate(e)}>{">"}</a>
                     <br/>
                     <br/>
                     
