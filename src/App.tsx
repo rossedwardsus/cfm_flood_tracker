@@ -27,6 +27,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
+import Chart from 'react-google-charts';
+
 import { BrowserRouter as Router, Route, Link, match, withRouter, Redirect, Switch } from "react-router-dom";
 
 const styles = {
@@ -255,9 +257,51 @@ class FloodTracker extends Component<any, any> {
                         </TableBody>
                       </Table>
                       <br/>
-                    </div> : <div>graph</div>}
+                    </div> : <div>graph<br/>
+                      <Chart
+                          width={300}
+                          height={300}
+                          chartType="Scatter"
+                          loader={<div>Loading Chart</div>}
+                          data={[
+                            ['Time', 'Level'],
+                            [0, 67],
+                            [1, 88],
+                            [2, 77],
+                            [3, 93],
+                            [4, 85],
+                            [5, 91],
+                            [6, 71],
+                            [7, 78],
+                            [8, 93],
+                            [9, 80],
+                            [10, 82],
+                            [0, 75],
+                            [5, 80],
+                            [3, 90],
+                            [1, 72],
+                            [5, 75],
+                            [6, 68],
+                            [7, 98],
+                            [3, 82],
+                            [9, 94],
+                            [2, 79],
+                            [2, 95],
+                            [2, 86],
+                            [3, 67],
+                            [4, 60],
+                            [2, 80],
+                            [6, 92],
+                            [2, 81],
+                            [8, 79],
+                            [9, 83],
+                            [3, 75],
+                            [1, 80],
+                            [3, 71],
+                          ]}
+                    </div>}
                     <br/>
-                    <Hidden smDown>
+                    <Hidden smUp>
                     put a bottom navbar here
                     <BottomNavigation
                       value={0}
