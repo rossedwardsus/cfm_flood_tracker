@@ -27,7 +27,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
-import Chart from 'react-google-charts';
+import {Chart} from 'react-google-charts';
 
 import { BrowserRouter as Router, Route, Link, match, withRouter, Redirect, Switch } from "react-router-dom";
 
@@ -59,7 +59,7 @@ class FloodTracker extends Component<any, any> {
       super(props);
       
       this.state = {data: [{event: "level_mm", data: 584, coreid: 400036001751353338363036, published_at: "2019-02-18 16:30:21 -0500"}],
-                    data_as_list_formatted: "", activeTab: 0, anchorEl: null, menuOpen: false, date_formatted: "", view_type: "list", current_date: ""};
+                    chart_data: "", data_as_list_formatted: "", activeTab: 0, anchorEl: null, menuOpen: false, date_formatted: "", view_type: "list", current_date: ""};
   }
 
   componentDidMount = () => {
@@ -261,7 +261,7 @@ class FloodTracker extends Component<any, any> {
                       <Chart
                           width={300}
                           height={300}
-                          chartType="Scatter"
+                          chartType="ScatterChart"
                           loader={<div>Loading Chart</div>}
                           data={[
                             ['Time', 'Level'],
@@ -299,6 +299,16 @@ class FloodTracker extends Component<any, any> {
                             [1, 80],
                             [3, 71],
                           ]}
+                          options={{
+                          // Material design options
+                          chart: {
+                            title: "Water level",
+                            subtitle: 'based on time through day',
+                          },
+                          hAxis: { title: 'Time' },
+                          vAxis: { title: 'Level' },
+                        }}
+                      />
                     </div>}
                     <br/>
                     <Hidden smUp>
