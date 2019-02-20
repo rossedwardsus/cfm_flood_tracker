@@ -59,7 +59,7 @@ class FloodTracker extends Component<any, any> {
       super(props);
       
       this.state = {data: [{event: "level_mm", data: 584, coreid: 400036001751353338363036, published_at: "2019-02-18 16:30:21 -0500"}],
-                    chart_data: "", data_as_list_formatted: "", activeTab: 0, anchorEl: null, menuOpen: false, date_formatted: "", view_type: "list", current_date: ""};
+                    chart_data: [{data: 584, published_at: "16:30:21"}], data_as_list_formatted: "", activeTab: 0, anchorEl: null, menuOpen: false, date_formatted: "", view_type: "list", current_date: ""};
   }
 
   componentDidMount = () => {
@@ -309,7 +309,9 @@ class FloodTracker extends Component<any, any> {
                           vAxis: { title: 'Level' },
                         }}
                       />
-                    </div>}
+                      
+                      <br/>
+                     </div>}
                     <br/>
                     <Hidden smUp>
                     put a bottom navbar here
@@ -332,3 +334,5 @@ class FloodTracker extends Component<any, any> {
 }
 
 export default withStyles(styles)(FloodTracker);
+
+
