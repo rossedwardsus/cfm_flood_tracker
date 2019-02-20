@@ -57,7 +57,7 @@ class FloodTracker extends Component<any, any> {
       super(props);
       
       this.state = {data: [{event: "level_mm", data: 584, coreid: 400036001751353338363036, published_at: "2019-02-18 16:30:21 -0500"}],
-                    data_as_list_formatted: "", activeTab: 0, anchorEl: null, menuOpen: false, date: "", view_type: "list"};
+                    data_as_list_formatted: "", activeTab: 0, anchorEl: null, menuOpen: false, date_formatted: "", view_type: "list", current_date: ""};
   }
 
   componentDidMount = () => {
@@ -69,7 +69,8 @@ class FloodTracker extends Component<any, any> {
       
       let date_as_string = day_of_week + " " + month + " " + day_of_month+ ", year ";
 
-      this.setState({date: date_as_string})
+      this.setState({current_date: date});
+      this.setState({date_formatted: date_as_string})
 
       let formatted_data = this.state.data.map((data: any ) => <div>{data.event}<br/>{data.data}<br/>{data.coreid.toString()}<br/>{this.formatPublishedAt(data.published_at)}</div>);
       //alert(JSON.stringify(formatted_data));
@@ -115,7 +116,49 @@ class FloodTracker extends Component<any, any> {
     //loop through data and format datetime
     
     this.setState({view_type: type});
-  };
+  }
+
+  incrementDate = (e: any) => {
+
+    //get the date
+
+    let date_time = moment( this.state.current_date, "YYYY-MM-DD HH:mm:ss")
+    //.format("MM-DD-YYYY");
+    // hh:mm A');
+    let date_time_plus_one_day = date_time.add(1,'days')
+    let day_of_week = date_time_plus_one_day.format("dddd");
+    let month = date_time_plus_one_day.format("MMM");
+    let date = date_time_plus_one_day.day();
+    let time = date_time_plus_one_day.format("hh:mm:ss A");
+
+    //format the date
+    //alert(day_of_week + " " + month + " " + date + ", year " + time);
+
+    this.setState({current_date: date_time_plus_one_day})
+    this.setState({date_formatted:  day_of_week + " " + month + " " + date + ", year " + time});
+
+  }
+
+  decrementDate = (e: any) => {
+
+    //get the date
+
+    let date_time = moment(this.state.current_date, "YYYY-MM-DD HH:mm:ss")
+    //.format("MM-DD-YYYY");
+    // hh:mm A');
+    let date_time_minus_one_day = date_time.subtract(1,'days')
+    let day_of_week = date_time_minus_one_day.format("dddd");
+    let month = date_time_minus_one_day.format("MMM");
+    let date = date_time_minus_one_day.day();
+    let time = date_time_minus_one_day.format("hh:mm:ss A");
+
+    //format the date
+    //alert(day_of_week + " " + month + " " + date + ", year " + time);
+
+    this.setState({current_date: date_time_minus_one_day})
+    this.setState({date_formatted:  day_of_week + " " + month + " " + date + ", year " + time});
+
+  }
 
   render() {
 
@@ -181,7 +224,7 @@ class FloodTracker extends Component<any, any> {
                       Welcome to the Code for Miami Flood Tracker!
                     </p>
                     <br/>
-                    Todays date is: {this.state.date}
+                    <a href="#" onClick={(e: any) => this.decrementDate(e)}>Previous Day</a>{this.state.date_formatted}<a href="#" onClick={(e: any) => this.incrementDate(e)}>Next Day</a>
                     <br/>
                     <br/>
                     
