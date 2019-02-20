@@ -40,7 +40,7 @@ const styles = {
     flexGrow: 1,
   },
   table: {
-    maxWidth: 720,
+    maxWidth: 700,
   },
   menuButton: {
     marginLeft: -12,
@@ -59,7 +59,7 @@ class FloodTracker extends Component<any, any> {
       super(props);
       
       this.state = {data: [{event: "level_mm", data: 584, coreid: 400036001751353338363036, published_at: "2019-02-18 16:30:21 -0500"}],
-                    chart_data: [{data: 584, published_at: "16:30:21"}], data_as_list_formatted: "", activeTab: 0, anchorEl: null, menuOpen: false, date_formatted: "", view_type: "list", current_date: ""};
+                    chart_data: [{data: 584, published_at: "16:30:21"}], data_as_list_formatted: "", activeTab: 0, anchorEl: null, menuOpen: false, date_formatted: "", view_type: "list", current_date: "", bottom_navigation_value: 0};
   }
 
   componentDidMount = () => {
@@ -101,7 +101,7 @@ class FloodTracker extends Component<any, any> {
   //view as char and as list
   changeView = (type: any, e: any) => {
     e.preventDefault();
-    //alert(type)
+    alert(type)
 
     let date_time = moment("2019-02-18 16:30", "YYYY-MM-DD HH:mm:ss")
     //.format("MM-DD-YYYY");
@@ -117,7 +117,7 @@ class FloodTracker extends Component<any, any> {
 
     //loop through data and format datetime
     
-    this.setState({view_type: type});
+    this.setState({bottom_navigation_value: type});
   }
 
   incrementDate = (e: any) => {
@@ -162,6 +162,14 @@ class FloodTracker extends Component<any, any> {
 
   }
 
+  handleBottomNavigationChange = (event: any, value: any) => {
+    //alert(value);
+
+    this.setState({ bottom_navigation_value: value });
+  };
+
+
+
   render() {
 
     const { classes } = this.props;
@@ -202,7 +210,7 @@ class FloodTracker extends Component<any, any> {
             <div className={classes.root}>
               <Grid container spacing={24} style={{textAlign: "left"}}>
                   <Hidden mdDown>
-                    <Grid item xs={12} sm={1} md={2} lg={4} style={{textAlign: "left"}}>
+                    <Grid item xs={1} sm={1} md={2} lg={2} style={{textAlign: "left"}}>
                       <br/>
                       <br/>
                       hide this on mobile
@@ -211,13 +219,13 @@ class FloodTracker extends Component<any, any> {
                       <br/>
                       Data
                       <br/>
-                      <a href="#" onClick={(e: any) => this.changeView("list", e)}>List</a>
+                      <a href="#" onClick={(e: any) => this.changeView(0, e)}>List</a>
                       <br/>
-                      <a href="#" onClick={(e: any) => this.changeView("graph", e)}>Graph</a>
+                      <a href="#" onClick={(e: any) => this.changeView(1, e)}>Graph</a>
                       <br/>
                     </Grid>
                   </Hidden>
-                  <Grid item xs>
+                  <Grid item>
                     <br/>
                     <br/>
                     <br/>
@@ -231,9 +239,9 @@ class FloodTracker extends Component<any, any> {
                     <br/>
                     
                     <br/>
-                    {this.state.view_type == "list" ? 
+                    {this.state.bottom_navigation_value === 0 ? 
                       <div>
-                       <Table className={classes.table}>
+                       <Table style={{ tableLayout: 'auto' }} className={classes.table}>
                         <TableHead>
                           <TableRow>
                             <TableCell>Event</TableCell>
@@ -314,17 +322,21 @@ class FloodTracker extends Component<any, any> {
                      </div>}
                     <br/>
                     <Hidden smUp>
-                    put a bottom navbar here
                     <BottomNavigation
-                      value={0}
+                      value={this.state.bottom_navigation_value}
+                      onChange={this.handleBottomNavigationChange}
                       showLabels
                       className={classes.stickToBottom}
                     >
-                      <BottomNavigationAction label="List" component={({innerRef, ...props}) => <Link {...props} to="/graph" />}/>
-                      <BottomNavigationAction label="Graph" onClick={(e: any) => this.changeView("graph", e)}/>
+                      <BottomNavigationAction label="List"/>
+                      <BottomNavigationAction label="Graph"/>
                     </BottomNavigation>
                     </Hidden>
                   </Grid>
+                   <Hidden mdDown>
+                    <Grid item xs={1} sm={1} md={2} lg={2}>
+                    </Grid>
+                  </Hidden>
               </Grid>
             </div>
           </div>
