@@ -40,7 +40,7 @@ const styles = {
     flexGrow: 1,
   },
   table: {
-    maxWidth: 700,
+    maxWidth: 500,
   },
   menuButton: {
     marginLeft: -12,
@@ -241,11 +241,11 @@ class FloodTracker extends Component<any, any> {
                     <br/>
                     {this.state.bottom_navigation_value === 0 ? 
                       <div>
-                       <Table style={{ tableLayout: 'auto' }} className={classes.table}>
+                       <Table style={{ tableLayout: 'auto'}} className={classes.table}>
                         <TableHead>
                           <TableRow>
-                            <TableCell>Event</TableCell>
-                            <TableCell align="right">Data</TableCell>
+                            <TableCell padding="none">Event</TableCell>
+                            <TableCell padding="none" align="right">Data</TableCell>
                             <TableCell align="right">Coreid</TableCell>
                             <TableCell align="right">published_at</TableCell>
                           </TableRow>
@@ -254,12 +254,10 @@ class FloodTracker extends Component<any, any> {
                        <TableBody>
                         {this.state.data.map((row: any) => (
                           <TableRow key={1}>
-                            <TableCell component="th" scope="row">
-                              {row.event}
-                            </TableCell>
-                            <TableCell align="right">{row.data}</TableCell>
-                            <TableCell align="right">{row.coreid}</TableCell>
-                            <TableCell align="right">{this.formatPublishedAt(row.published_at)}</TableCell>
+                            <TableCell padding="none">{row.event.trim()}</TableCell>
+                            <TableCell padding="none" align="right">{row.data}</TableCell>
+                            <TableCell padding="none" align="right">{row.coreid}</TableCell>
+                            <TableCell padding="none" align="right">{this.formatPublishedAt(row.published_at)}</TableCell>
                           </TableRow>
                         ))}
                         </TableBody>
