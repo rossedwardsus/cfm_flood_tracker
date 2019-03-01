@@ -27,6 +27,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
+import GoogleMapReact from 'google-map-react';
+
 import {Chart} from 'react-google-charts';
 
 import { BrowserRouter as Router, Route, Link, match, withRouter, Redirect, Switch } from "react-router-dom";
@@ -40,7 +42,7 @@ const styles = {
     flexGrow: 1,
   },
   table: {
-    maxWidth: 500,
+    maxWidth: 100,
   },
   menuButton: {
     marginLeft: -12,
@@ -101,7 +103,7 @@ class FloodTracker extends Component<any, any> {
   //view as char and as list
   changeView = (type: any, e: any) => {
     e.preventDefault();
-    alert(type)
+    //alert(type)
 
     let date_time = moment("2019-02-18 16:30", "YYYY-MM-DD HH:mm:ss")
     //.format("MM-DD-YYYY");
@@ -208,24 +210,20 @@ class FloodTracker extends Component<any, any> {
               </Toolbar>
             </AppBar>
             <div className={classes.root}>
-              <Grid container spacing={24} style={{textAlign: "left"}}>
+              <Grid container spacing={0}>
                   <Hidden mdDown>
-                    <Grid item xs={1} sm={1} md={2} lg={2} style={{textAlign: "left"}}>
+                    <Grid item xs={1} sm={1} md={2} lg={1} style={{textAlign: "center"}}>
+                      <br/>
+                      <br/>                      
                       <br/>
                       <br/>
-                      hide this on mobile
-                      
+                      <a href="#" onClick={(e: any) => this.changeView(0, e)}>Map</a>
                       <br/>
-                      <br/>
-                      Data
-                      <br/>
-                      <a href="#" onClick={(e: any) => this.changeView(0, e)}>List</a>
-                      <br/>
-                      <a href="#" onClick={(e: any) => this.changeView(1, e)}>Graph</a>
+                      <a href="#" onClick={(e: any) => this.changeView(1, e)}>Sign up</a>
                       <br/>
                     </Grid>
                   </Hidden>
-                  <Grid item xs={12} sm={12} md={2} lg={10}>
+                  <Grid item xs={10} sm={10} md={2} lg={10} style={{textAlign: "left"}}>
                     <br/>
                     <br/>
                     <br/>
@@ -234,89 +232,31 @@ class FloodTracker extends Component<any, any> {
                       Welcome to the Code for Miami Flood Tracker!
                     </p>
                     <br/>
-                    <a href="#" onClick={(e: any) => this.decrementDate(e)}>{"<"}</a>{this.state.date_formatted}<a href="#" onClick={(e: any) => this.incrementDate(e)}>{">"}</a>
+                    <p>
+                      The Code For Miami Flood Tracking project has monitoring devices listed below. You can elect to get notified by a phone call, sms message, or both when our trackers detect a flood.
+                    </p>
                     <br/>
                     <br/>
-                    
                     <br/>
                     {this.state.bottom_navigation_value === 0 ? 
                       <div>
-                       <Table style={{ tableLayout: 'auto'}} className={classes.table}>
-                        <TableHead>
-                          <TableRow>
-                            <TableCell padding="none">Event</TableCell>
-                            <TableCell padding="none" align="right">Data</TableCell>
-                            <TableCell align="right">Coreid</TableCell>
-                            <TableCell align="right">published_at</TableCell>
-                          </TableRow>
-                        </TableHead>
-                     
-                       <TableBody>
-                        {this.state.data.map((row: any) => (
-                          <TableRow key={1}>
-                            <TableCell padding="none">{row.event.trim()}</TableCell>
-                            <TableCell padding="none" align="right">{row.data}</TableCell>
-                            <TableCell padding="none" align="right">{row.coreid}</TableCell>
-                            <TableCell padding="none" align="right">{this.formatPublishedAt(row.published_at)}</TableCell>
-                          </TableRow>
-                        ))}
-                        </TableBody>
-                      </Table>
+                       <div style={{ height: '60vh', width: '100%' }}>
+                        <GoogleMapReact
+                          bootstrapURLKeys={{ key: "AIzaSyAnqGvxGX0guwpSNA_SSk4DfIVJ9okqowg" }}
+                          defaultCenter={{lat: 25.761681, lng: -80.191788}}
+                          defaultZoom={11}
+                        >
+                        </GoogleMapReact>
+                      </div>
                       <br/>
-                    </div> : <div>graph<br/>
-                      <Chart
-                          width={300}
-                          height={300}
-                          chartType="ScatterChart"
-                          loader={<div>Loading Chart</div>}
-                          data={[
-                            ['Time', 'Level'],
-                            [0, 67],
-                            [1, 88],
-                            [2, 77],
-                            [3, 93],
-                            [4, 85],
-                            [5, 91],
-                            [6, 71],
-                            [7, 78],
-                            [8, 93],
-                            [9, 80],
-                            [10, 82],
-                            [0, 75],
-                            [5, 80],
-                            [3, 90],
-                            [1, 72],
-                            [5, 75],
-                            [6, 68],
-                            [7, 98],
-                            [3, 82],
-                            [9, 94],
-                            [2, 79],
-                            [2, 95],
-                            [2, 86],
-                            [3, 67],
-                            [4, 60],
-                            [2, 80],
-                            [6, 92],
-                            [2, 81],
-                            [8, 79],
-                            [9, 83],
-                            [3, 75],
-                            [1, 80],
-                            [3, 71],
-                          ]}
-                          options={{
-                          // Material design options
-                          chart: {
-                            title: "Water level",
-                            subtitle: 'based on time through day',
-                          },
-                          hAxis: { title: 'Time' },
-                          vAxis: { title: 'Level' },
-                        }}
-                      />
-                      
-                      <br/>
+                    </div> : <div>
+                        Subscribe
+                        <br/>
+                        Phone
+                        <br/>
+                        Device Subscription
+                        <br/>
+                        Contact Method
                      </div>}
                     <br/>
                     <Hidden smUp>
@@ -326,8 +266,8 @@ class FloodTracker extends Component<any, any> {
                       showLabels
                       className={classes.stickToBottom}
                     >
-                      <BottomNavigationAction label="List"/>
-                      <BottomNavigationAction label="Graph"/>
+                      <BottomNavigationAction label="Map"/>
+                      <BottomNavigationAction label="Signup"/>
                     </BottomNavigation>
                     </Hidden>
                   </Grid>
