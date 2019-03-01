@@ -242,7 +242,7 @@ class FloodTracker extends Component<any, any> {
                       <div>
                        <div style={{ height: '60vh', width: '100%' }}>
                         <GoogleMapReact
-                          bootstrapURLKeys={{ key: "AIzaSyAnqGvxGX0guwpSNA_SSk4DfIVJ9okqowg" }}
+                          bootstrapURLKeys={{ key: "" }}
                           defaultCenter={{lat: 25.761681, lng: -80.191788}}
                           defaultZoom={11}
                         >
